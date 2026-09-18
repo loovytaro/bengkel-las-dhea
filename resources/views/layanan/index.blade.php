@@ -1,74 +1,51 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+@extends('layouts.app')
 
-    <title>Layanan - Bengkel Las Dhea</title>
+@section('content')
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-
-<body>
-
-<div class="container py-5">
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
-        <div>
-            <h2 class="fw-bold mb-1">Layanan</h2>
-            <p class="text-muted mb-0">
-                Kelola layanan Bengkel Las Dhea
-            </p>
-        </div>
-
-        <a href="{{ route('layanan.create') }}"
-           class="btn btn-dark">
-            + Tambah Layanan
-        </a>
-
+<div class="page-header">
+    <div>
+        <h1>Kelola Layanan</h1>
+        <p>Kelola daftar layanan yang tersedia di Bengkel Las Dhea.</p>
     </div>
 
+    <a href="{{ route('layanan.create') }}" class="btn-add">
+        + Tambah Layanan
+    </a>
+</div>
 
-    {{-- Pesan sukses --}}
-    @if (session('success'))
-        <div class="alert alert-success">
+<div class="content-card">
+
+    <div class="card-header">
+        <h2>Daftar Layanan</h2>
+        <span>{{ $layanan->count() }} layanan</span>
+    </div>
+
+    @if(session('success'))
+        <div class="alert-success">
             {{ session('success') }}
         </div>
     @endif
 
+    @if($layanan->count() > 0)
 
-    <div class="card shadow-sm border-0">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Layanan</th>
+                        <th>Deskripsi</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
 
-        <div class="card-body">
-
-            <div class="table-responsive">
-
-                <table class="table table-hover align-middle">
-
-                    <thead>
+                <tbody>
+                    @foreach($layanan as $item)
                         <tr>
-                            <th width="70">No</th>
-                            <th>Nama Layanan</th>
-                            <th>Deskripsi</th>
-                            <th width="180">Aksi</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                    @forelse ($layanan as $item)
-
-                        <tr>
+                            <td>{{ $loop->iteration }}</td>
 
                             <td>
-                                {{ $loop->iteration }}
-                            </td>
-
-                            <td>
-                                <strong>
-                                    {{ $item->nama_layanan }}
-                                </strong>
+                                <strong>{{ $item->nama_layanan }}</strong>
                             </td>
 
                             <td>
@@ -76,63 +53,49 @@
                             </td>
 
                             <td>
+                                <div class="action-buttons">
 
-                                <a
-                                    href="{{ route('layanan.edit', $item->id_layanan) }}"
-                                    class="btn btn-sm btn-warning">
-                                    Edit
-                                </a>
+                                    <a
+                                        href="{{ route('layanan.edit', $item->id_layanan) }}"
+                                        class="btn-edit"
+                                    >
+                                        Edit
+                                    </a>
 
+                                    <form
+                                        action="{{ route('layanan.destroy', $item->id_layanan) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Yakin ingin menghapus layanan ini?')"
+                                    >
+                                        @csrf
+                                        @method('DELETE')
 
-                                <form
-                                    action="{{ route('layanan.destroy', $item->id_layanan) }}"
-                                    method="POST"
-                                    class="d-inline">
+                                        <button type="submit" class="btn-delete">
+                                            Hapus
+                                        </button>
+                                    </form>
 
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button
-                                        type="submit"
-                                        class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Yakin ingin menghapus layanan ini?')">
-
-                                        Hapus
-
-                                    </button>
-
-                                </form>
-
+                                </div>
                             </td>
-
                         </tr>
-
-                    @empty
-
-                        <tr>
-
-                            <td colspan="4"
-                                class="text-center text-muted py-4">
-
-                                Belum ada layanan.
-
-                            </td>
-
-                        </tr>
-
-                    @endforelse
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
+                    @endforeach
+                </tbody>
+            </table>
         </div>
 
-    </div>
+    @else
+
+        <div class="empty-state">
+            <h3>Belum ada layanan</h3>
+            <p>Tambahkan layanan pertama Bengkel Las Dhea.</p>
+
+            <a href="{{ route('layanan.create') }}" class="btn-add">
+                + Tambah Layanan
+            </a>
+        </div>
+
+    @endif
 
 </div>
 
-</body>
-</html>
+@endsection

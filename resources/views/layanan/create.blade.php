@@ -1,123 +1,81 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
+@extends('layouts.app')
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+@section('content')
 
-    <title>Tambah Layanan - Bengkel Las Dhea</title>
+<div class="page-header">
+    <div>
+        <h1>Tambah Layanan</h1>
+        <p>Tambahkan layanan baru Bengkel Las Dhea.</p>
+    </div>
+</div>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
+<div class="content-card">
 
-<body>
-
-<div class="container py-5">
-
-    <div class="mb-4">
-
-        <h2 class="fw-bold">
-            Tambah Layanan
-        </h2>
-
-        <p class="text-muted">
-            Tambahkan layanan baru.
-        </p>
-
+    <div class="card-header">
+        <h2>Form Layanan</h2>
     </div>
 
+    <div class="form-container">
 
-    @if ($errors->any())
+        <form action="{{ route('layanan.store') }}" method="POST">
+            @csrf
 
-        <div class="alert alert-danger">
+            {{-- Nama Layanan --}}
+            <div class="form-group">
+                <label for="nama_layanan">Nama Layanan</label>
 
-            <ul class="mb-0">
+                <input
+                    type="text"
+                    id="nama_layanan"
+                    name="nama_layanan"
+                    value="{{ old('nama_layanan') }}"
+                    placeholder="Contoh: Pembuatan Pagar Besi"
+                    required
+                >
 
-                @foreach ($errors->all() as $error)
+                @error('nama_layanan')
+                    <small class="error-message">
+                        {{ $message }}
+                    </small>
+                @enderror
+            </div>
 
-                    <li>{{ $error }}</li>
+            {{-- Deskripsi --}}
+            <div class="form-group">
+                <label for="deskripsi_layanan">Deskripsi Layanan</label>
 
-                @endforeach
+                <textarea
+                    id="deskripsi_layanan"
+                    name="deskripsi_layanan"
+                    rows="6"
+                    placeholder="Masukkan deskripsi layanan..."
+                    required
+                >{{ old('deskripsi_layanan') }}</textarea>
 
-            </ul>
+                @error('deskripsi_layanan')
+                    <small class="error-message">
+                        {{ $message }}
+                    </small>
+                @enderror
+            </div>
 
-        </div>
+            {{-- Tombol --}}
+            <div class="form-actions">
 
-    @endif
+                <a href="{{ route('layanan.index') }}" class="btn-cancel">
+                    Batal
+                </a>
 
+                <button type="submit" class="btn-add">
+                    Simpan Layanan
+                </button>
 
-    <div class="card shadow-sm border-0">
+            </div>
 
-        <div class="card-body">
-
-            <form
-                action="{{ route('layanan.store') }}"
-                method="POST">
-
-                @csrf
-
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Nama Layanan
-                    </label>
-
-                    <input
-                        type="text"
-                        name="nama_layanan"
-                        class="form-control"
-                        value="{{ old('nama_layanan') }}"
-                        placeholder="Contoh: Pembuatan Kanopi"
-                        required>
-
-                </div>
-
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Deskripsi Layanan
-                    </label>
-
-                    <textarea
-                        name="deskripsi_layanan"
-                        class="form-control"
-                        rows="5"
-                        placeholder="Masukkan deskripsi layanan..."
-                        required>{{ old('deskripsi_layanan') }}</textarea>
-
-                </div>
-
-
-                <div class="d-flex gap-2">
-
-                    <a
-                        href="{{ route('layanan.index') }}"
-                        class="btn btn-secondary">
-
-                        Kembali
-
-                    </a>
-
-                    <button
-                        type="submit"
-                        class="btn btn-dark">
-
-                        Simpan
-
-                    </button>
-
-                </div>
-
-            </form>
-
-        </div>
+        </form>
 
     </div>
 
 </div>
 
-</body>
-</html>
+@endsection

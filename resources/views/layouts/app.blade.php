@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,10 +19,7 @@
 
             <div class="sidebar-brand">
                 <div class="brand-logo">
-                    <img
-                        src="{{ asset('image/logobengkel-removebg.png') }}"
-                        alt="Logo"
-                    >
+                    <img src="{{ asset('image/logobengkel-removebg.png') }}" alt="Logo">
                 </div>
 
                 <div>
@@ -33,37 +31,25 @@
 
             <nav class="sidebar-menu">
 
-                <a
-                    href="{{ route('dashboard') }}"
-                    class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"
-                >
+                <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     Dashboard
                 </a>
 
 
                 {{-- PROFIL HANYA UNTUK PEMILIK --}}
                 @if (session('admin_role') === 'pemilik')
-                    <a
-                        href="#"
-                        class="{{ request()->routeIs('profil.*') ? 'active' : '' }}"
-                    >
+                    <a href="#" class="{{ request()->routeIs('profil.*') ? 'active' : '' }}">
                         Profil Perusahaan
                     </a>
                 @endif
 
 
-                <a
-                    href="#"
-                    class="{{ request()->routeIs('layanan.*') ? 'active' : '' }}"
-                >
+                <a href="{{ route('layanan.index') }}" class="{{ request()->routeIs('layanan.*') ? 'active' : '' }}">
                     Layanan
                 </a>
 
 
-                <a
-                    href="#"
-                    class="{{ request()->routeIs('galeri.*') ? 'active' : '' }}"
-                >
+                <a href="#" class="{{ request()->routeIs('galeri.*') ? 'active' : '' }}">
                     Galeri
                 </a>
 
@@ -117,4 +103,5 @@
     </div>
 
 </body>
+
 </html>
