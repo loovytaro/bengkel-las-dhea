@@ -38,8 +38,6 @@ class LayananController extends Controller
             'deskripsi_layanan' => 'required|string',
         ]);
 
-        dd(session()->all());
-
         Layanan::create([
             'id_admin' => session('id_admin'),
             'nama_layanan' => $request->nama_layanan,

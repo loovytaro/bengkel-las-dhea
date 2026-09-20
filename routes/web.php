@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LayananController;
+use App\Http\Controllers\GaleriController;
 
 // LOGIN
 Route::get('/login', [AuthController::class, 'showLogin'])
@@ -23,3 +24,6 @@ Route::resource('layanan', LayananController::class);
 // LOGOUT
 Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
+
+// GALERI
+Route::resource('galeri.', GaleriController::class);

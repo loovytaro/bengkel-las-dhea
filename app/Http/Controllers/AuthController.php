@@ -29,13 +29,16 @@ class AuthController extends Controller
             ])->withInput();
         }
 
+        // regenerasi session setelah login
+        $request->session()->regenerate();
+
         session([
             'id_admin' => $admin->id_admin,
             'username' => $admin->username,
             'role' => $admin->role,
         ]);
 
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('dashboard');
     }
 
     public function logout(Request $request)

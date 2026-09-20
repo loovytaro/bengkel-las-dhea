@@ -1,122 +1,97 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
+@extends('layouts.app')
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+@section('content')
 
-    <title>Edit Layanan - Bengkel Las Dhea</title>
+    <div class="page-header">
+        <div>
+            <h1>Edit Layanan</h1>
+            <p>Ubah informasi layanan Bengkel Las Dhea.</p>
+        </div>
+    </div>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
+    <div class="content-card form-card">
 
-<body>
+        <div class="card-header">
+            <h2>Informasi Layanan</h2>
+        </div>
 
-<div class="container py-5">
+        <form action="{{ route('layanan.update', $layanan->id_layanan) }}" method="POST" class="form-content">
+            @csrf
+            @method('PUT')
 
-    <div class="mb-4">
+            <div class="form-group">
+                <label for="nama_layanan">Nama Layanan</label>
 
-        <h2 class="fw-bold">
-            Edit Layanan
-        </h2>
+                <input type="text" id="nama_layanan" name="nama_layanan"
+                    value="{{ old('nama_layanan', $layanan->nama_layanan) }}" required>
 
-        <p class="text-muted">
-            Ubah informasi layanan.
-        </p>
+                @error('nama_layanan')
+                    <small class="error-text">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="deskripsi_layanan">Deskripsi Layanan</label>
+
+                <textarea id="deskripsi_layanan" name="deskripsi_layanan" rows="6"
+                    required>{{ old('deskripsi_layanan', $layanan->deskripsi_layanan) }}</textarea>
+
+                @error('deskripsi_layanan')
+                    <small class="error-text">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div class="form-actions">
+
+                <a href="{{ route('layanan.index') }}" class="btn-cancel">
+                    Kembali
+                </a>
+
+                <button type="submit" class="btn-add">
+                    Simpan Perubahan
+                </button>
+
+            </div>
+
+        </form>
 
     </div>
 
+    <script>
 
-    @if ($errors->any())
+        let deleteForm = null;
 
-        <div class="alert alert-danger">
+        function openDeleteModal(button) {
 
-            <ul class="mb-0">
+            deleteForm = button.closest('.delete-form');
 
-                @foreach ($errors->all() as $error)
+            document.getElementById('deleteModal').classList.add('show');
+        }
 
-                    <li>{{ $error }}</li>
+        function closeDeleteModal() {
 
-                @endforeach
+            document.getElementById('deleteModal').classList.remove('show');
 
-            </ul>
+            deleteForm = null;
+        }
 
-        </div>
+        function confirmDelete() {
 
-    @endif
+            if (deleteForm) {
+                deleteForm.submit();
+            }
 
+        }
 
-    <div class="card shadow-sm border-0">
+        // Tutup kalau klik area luar modal
+        document.getElementById('deleteModal').addEventListener('click', function (event) {
 
-        <div class="card-body">
+            if (event.target === this) {
+                closeDeleteModal();
+            }
 
-            <form
-                action="{{ route('layanan.update', $layanan->id_layanan) }}"
-                method="POST">
+        });
 
-                @csrf
-                @method('PUT')
+    </script>
 
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Nama Layanan
-                    </label>
-
-                    <input
-                        type="text"
-                        name="nama_layanan"
-                        class="form-control"
-                        value="{{ old('nama_layanan', $layanan->nama_layanan) }}"
-                        required>
-
-                </div>
-
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Deskripsi Layanan
-                    </label>
-
-                    <textarea
-                        name="deskripsi_layanan"
-                        class="form-control"
-                        rows="5"
-                        required>{{ old('deskripsi_layanan', $layanan->deskripsi_layanan) }}</textarea>
-
-                </div>
-
-
-                <div class="d-flex gap-2">
-
-                    <a
-                        href="{{ route('layanan.index') }}"
-                        class="btn btn-secondary">
-
-                        Kembali
-
-                    </a>
-
-                    <button
-                        type="submit"
-                        class="btn btn-dark">
-
-                        Update
-
-                    </button>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-
-</body>
-</html>
+@endsection
