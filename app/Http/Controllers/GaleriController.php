@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use App\Models\Galeri;
 use Illuminate\Http\Request;
 
@@ -38,8 +39,6 @@ class GaleriController extends Controller
             'kategori_galeri' => 'required|string|max:100',
             'foto' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
-
-        dd(session()->all());
         
         $foto = $request->file('foto')->store('galeri', 'public');
 

@@ -15,6 +15,7 @@ Route::post('/login', [AuthController::class, 'login'])
 
 // DASHBOARD
 Route::get('/dashboard', function () {
+    
     return view('dashboard');
 })->name('dashboard');
 
@@ -26,4 +27,4 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
 
 // GALERI
-Route::resource('galeri.', GaleriController::class);
+Route::resource('galeri', GaleriController::class);

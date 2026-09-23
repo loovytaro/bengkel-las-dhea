@@ -2,129 +2,187 @@
 
 @section('content')
 
-<div class="page-header">
+    <div class="page-header">
 
-    <div>
-        <h1>Kelola Galeri</h1>
-        <p>Kelola foto dan dokumentasi Bengkel Las Dhea.</p>
-    </div>
-
-    <a href="{{ route('galeri.create') }}" class="btn-add">
-        + Tambah Galeri
-    </a>
-
-</div>
-
-
-<div class="content-card">
-
-    <div class="card-header">
-        <h2>Daftar Galeri</h2>
-
-        <span>
-            {{ $galeri->count() }} foto
-        </span>
-    </div>
-
-
-    @if(session('success'))
-
-        <div class="alert-success">
-            {{ session('success') }}
+        <div>
+            <h1>Kelola Galeri</h1>
+            <p>Kelola foto dan dokumentasi Bengkel Las Dhea.</p>
         </div>
 
-    @endif
+        <a href="{{ route('galeri.create') }}" class="btn-add">
+            + Tambah Galeri
+        </a>
+
+    </div>
 
 
-    @if($galeri->count() > 0)
+    <div class="content-card">
 
-        <div class="gallery-grid">
+        <div class="card-header">
+            <h2>Daftar Galeri</h2>
 
-            @foreach($galeri as $item)
-
-                <div class="gallery-item">
-
-                    <div class="gallery-image">
-
-                        <img
-                            src="{{ asset('storage/' . $item->foto) }}"
-                            alt="{{ $item->nama_galeri }}"
-                        >
-
-                    </div>
+            <span>
+                {{ $galeri->count() }} foto
+            </span>
+        </div>
 
 
-                    <div class="gallery-info">
+        @if(session('success'))
 
-                        <h3>
-                            {{ $item->nama_galeri }}
-                        </h3>
+            <div class="alert-success">
+                {{ session('success') }}
+            </div>
 
-                        <span>
-                            {{ $item->kategori_galeri }}
-                        </span>
+        @endif
 
 
-                        <div class="action-buttons">
+        @if($galeri->count() > 0)
 
-                            <a
-                                href="{{ route('galeri.edit', $item->id_galeri) }}"
-                                class="btn-edit"
-                            >
-                                Edit
-                            </a>
+            <div class="gallery-grid">
+
+                @foreach($galeri as $item)
+
+                    <div class="gallery-item">
+
+                        <div class="gallery-image">
+
+                            <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->nama_galeri }}">
+
+                        </div>
 
 
-                            <form
-                                action="{{ route('galeri.destroy', $item->id_galeri) }}"
-                                method="POST"
-                                class="delete-form"
-                            >
+                        <div class="gallery-info">
 
-                                @csrf
-                                @method('DELETE')
+                            <h3>
+                                {{ $item->nama_galeri }}
+                            </h3>
 
-                                <button
-                                    type="submit"
-                                    class="btn-delete"
-                                    onclick="return confirm('Yakin ingin menghapus foto ini?')"
-                                >
-                                    Hapus
-                                </button>
+                            <span>
+                                {{ $item->kategori_galeri }}
+                            </span>
 
-                            </form>
+
+                            <div class="action-buttons">
+
+                                <a href="{{ route('galeri.edit', $item->id_galeri) }}" class="btn-edit">
+                                    Edit
+                                </a>
+
+
+                                <form action="{{ route('galeri.destroy', $item->id_galeri) }}" method="POST" class="delete-form">
+
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="button" class="btn-delete" onclick="openDeleteModal(this)">
+                                        Hapus
+                                    </button>
+
+                                </form>
+
+                            </div>
 
                         </div>
 
                     </div>
 
-                </div>
+                @endforeach
 
-            @endforeach
+            </div>
+
+        @else
+
+            <div class="empty-state">
+
+                <h3>Belum ada galeri</h3>
+
+                <p>
+                    Tambahkan foto pertama Bengkel Las Dhea.
+                </p>
+
+                <a href="{{ route('galeri.create') }}" class="btn-add">
+                    + Tambah Galeri
+                </a>
+
+            </div>
+
+        @endif
+
+    </div>
+
+    <!-- Modal Konfirmasi Hapus -->
+    <div id="deleteModal" class="delete-modal">
+
+        <div class="delete-modal-content">
+
+            <div class="delete-modal-header">
+                <h2>Hapus Galeri</h2>
+
+                <button type="button" class="modal-close" onclick="closeDeleteModal()">
+                    ×
+                </button>
+            </div>
+
+            <div class="delete-modal-body">
+                <p>
+                    Yakin ingin menghapus foto ini?
+                </p>
+
+                <small>
+                    Foto yang sudah dihapus tidak dapat dikembalikan.
+                </small>
+            </div>
+
+            <div class="delete-modal-footer">
+
+                <button type="button" class="btn-cancel" onclick="closeDeleteModal()">
+                    Batal
+                </button>
+
+                <button type="button" class="btn-confirm-delete" onclick="confirmDelete()">
+                    Hapus
+                </button>
+
+            </div>
 
         </div>
 
-    @else
+    </div>
 
-        <div class="empty-state">
+    <script>
+        let deleteForm = null;
 
-            <h3>Belum ada galeri</h3>
+        function openDeleteModal(button) {
+            deleteForm = button.closest('.delete-form');
 
-            <p>
-                Tambahkan foto pertama Bengkel Las Dhea.
-            </p>
+            document
+                .getElementById('deleteModal')
+                .classList.add('show');
+        }
 
-            <a
-                href="{{ route('galeri.create') }}"
-                class="btn-add"
-            >
-                + Tambah Galeri
-            </a>
+        function closeDeleteModal() {
+            document
+                .getElementById('deleteModal')
+                .classList.remove('show');
 
-        </div>
+            deleteForm = null;
+        }
 
-    @endif
+        function confirmDelete() {
+            if (deleteForm) {
+                deleteForm.submit();
+            }
+        }
 
-</div>
+        document
+            .getElementById('deleteModal')
+            .addEventListener('click', function (event) {
+
+                if (event.target === this) {
+                    closeDeleteModal();
+                }
+
+            });
+    </script>
 
 @endsection

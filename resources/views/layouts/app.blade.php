@@ -49,7 +49,7 @@
                 </a>
 
 
-                <a href="#" class="{{ request()->routeIs('galeri.*') ? 'active' : '' }}">
+                <a href="{{ route('galeri.index') }}" class="{{ request()->routeIs('galeri.*') ? 'active' : '' }}">
                     Galeri
                 </a>
 
