@@ -38,7 +38,7 @@
 
                 {{-- PROFIL HANYA UNTUK PEMILIK --}}
                 @if (session('admin_role') === 'pemilik')
-                    <a href="#" class="{{ request()->routeIs('profil.*') ? 'active' : '' }}">
+                    <a href="{{ route('profil.index') }}" class="{{ request()->routeIs('profil.*') ? 'active' : '' }}">
                         Profil Perusahaan
                     </a>
                 @endif

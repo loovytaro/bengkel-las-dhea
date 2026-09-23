@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\GaleriController;
+use App\Http\Controllers\ProfilPerusahaanController;
 
 // LOGIN
 Route::get('/login', [AuthController::class, 'showLogin'])
@@ -15,7 +16,7 @@ Route::post('/login', [AuthController::class, 'login'])
 
 // DASHBOARD
 Route::get('/dashboard', function () {
-    
+
     return view('dashboard');
 })->name('dashboard');
 
@@ -28,3 +29,10 @@ Route::post('/logout', [AuthController::class, 'logout'])
 
 // GALERI
 Route::resource('galeri', GaleriController::class);
+
+// PROFIL PERUSAHAAN KHUSUS PEMILIK
+Route::middleware('pemilik')->group(function () {
+
+    Route::resource('profil', ProfilPerusahaanController::class);
+
+});
