@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\ProfilPerusahaanController;
+use App\Http\Controllers\PemilikController;
 
 // LOGIN
 Route::get('/login', [AuthController::class, 'showLogin'])
@@ -29,6 +30,11 @@ Route::post('/logout', [AuthController::class, 'logout'])
 
 // GALERI
 Route::resource('galeri', GaleriController::class);
+
+// PENGELOLAAN PENGGUNA - KHUSUS PEMILIK
+Route::middleware('pemilik')->group(function () {
+    Route::resource('pengguna', PemilikController::class);
+});
 
 // PROFIL PERUSAHAAN KHUSUS PEMILIK
 Route::middleware('pemilik')->group(function () {

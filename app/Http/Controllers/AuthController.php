@@ -33,9 +33,9 @@ class AuthController extends Controller
         $request->session()->regenerate();
 
         session([
-            'id_admin' => $admin->id_admin,
-            'username' => $admin->username,
-            'role' => $admin->role,
+            'admin_id' => $admin->id_admin,
+            'admin_username' => $admin->username,
+            'admin_role' => $admin->role,
         ]);
 
         return redirect()->route('dashboard');

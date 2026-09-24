@@ -38,9 +38,11 @@
 
                 {{-- PROFIL HANYA UNTUK PEMILIK --}}
                 @if (session('admin_role') === 'pemilik')
+
                     <a href="{{ route('profil.index') }}" class="{{ request()->routeIs('profil.*') ? 'active' : '' }}">
                         Profil Perusahaan
                     </a>
+
                 @endif
 
 
@@ -52,6 +54,15 @@
                 <a href="{{ route('galeri.index') }}" class="{{ request()->routeIs('galeri.*') ? 'active' : '' }}">
                     Galeri
                 </a>
+
+                {{-- PENGELOLAAN PENGGUNA HANYA UNTUK PEMILIK --}}
+                @if (session('admin_role') === 'pemilik')
+
+                    <a href="{{ route('pengguna.index') }}" class="{{ request()->routeIs('pengguna.*') ? 'active' : '' }}">
+                        Pengguna
+                    </a>
+
+                @endif
 
             </nav>
 
