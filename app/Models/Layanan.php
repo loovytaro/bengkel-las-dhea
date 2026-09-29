@@ -11,13 +11,8 @@ class Layanan extends Model
     protected $primaryKey = 'id_layanan';
 
     protected $fillable = [
-        'id_admin',
         'nama_layanan',
         'deskripsi_layanan',
     ];
 
-    public function admin()
-    {
-        return $this->belongsTo(Admin::class, 'id_admin', 'id_admin');
-    }
 }

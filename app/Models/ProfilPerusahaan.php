@@ -11,7 +11,6 @@ class ProfilPerusahaan extends Model
     protected $primaryKey = 'id_profil';
 
     protected $fillable = [
-        'id_admin',
         'nama_perusahaan',
         'tentang_perusahaan',
         'alamat',

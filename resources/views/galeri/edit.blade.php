@@ -41,22 +41,6 @@
         </div>
 
         <div class="form-group">
-            <label for="kategori_galeri">Kategori</label>
-
-            <input
-                type="text"
-                id="kategori_galeri"
-                name="kategori_galeri"
-                value="{{ old('kategori_galeri', $galeri->kategori_galeri) }}"
-                required
-            >
-
-            @error('kategori_galeri')
-                <small class="error-text">{{ $message }}</small>
-            @enderror
-        </div>
-
-        <div class="form-group">
             <label for="foto">Ganti Foto</label>
 
             <input

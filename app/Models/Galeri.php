@@ -13,7 +13,6 @@ class Galeri extends Model
     protected $fillable = [
         'id_admin',
         'nama_galeri',
-        'kategori_galeri',
         'foto',
     ];
 

@@ -33,8 +33,12 @@
             <div class="form-group">
                 <label for="deskripsi_layanan">Deskripsi Layanan</label>
 
-                <textarea id="deskripsi_layanan" name="deskripsi_layanan" rows="6"
+                <textarea id="deskripsi_layanan" name="deskripsi_layanan" rows="6" maxlength="100"
                     required>{{ old('deskripsi_layanan', $layanan->deskripsi_layanan) }}</textarea>
+
+                <div class="character-count">
+                    <span id="charCount">0</span>/100 karakter
+                </div>
 
                 @error('deskripsi_layanan')
                     <small class="error-text">{{ $message }}</small>
@@ -58,40 +62,16 @@
     </div>
 
     <script>
+        const textarea = document.getElementById('deskripsi_layanan');
+        const charCount = document.getElementById('charCount');
 
-        let deleteForm = null;
-
-        function openDeleteModal(button) {
-
-            deleteForm = button.closest('.delete-form');
-
-            document.getElementById('deleteModal').classList.add('show');
+        function updateCharCount() {
+            charCount.textContent = textarea.value.length;
         }
 
-        function closeDeleteModal() {
+        textarea.addEventListener('input', updateCharCount);
 
-            document.getElementById('deleteModal').classList.remove('show');
-
-            deleteForm = null;
-        }
-
-        function confirmDelete() {
-
-            if (deleteForm) {
-                deleteForm.submit();
-            }
-
-        }
-
-        // Tutup kalau klik area luar modal
-        document.getElementById('deleteModal').addEventListener('click', function (event) {
-
-            if (event.target === this) {
-                closeDeleteModal();
-            }
-
-        });
-
+        updateCharCount();
     </script>
 
-@endsection
+@endsection 

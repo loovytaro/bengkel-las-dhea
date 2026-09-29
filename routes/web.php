@@ -39,6 +39,13 @@ Route::middleware('pemilik')->group(function () {
 // PROFIL PERUSAHAAN KHUSUS PEMILIK
 Route::middleware('pemilik')->group(function () {
 
-    Route::resource('profil', ProfilPerusahaanController::class);
+    Route::get('/profil', [ProfilPerusahaanController::class, 'index'])
+        ->name('profil.index');
+
+    Route::get('/profil/edit', [ProfilPerusahaanController::class, 'edit'])
+        ->name('profil.edit');
+
+    Route::put('/profil', [ProfilPerusahaanController::class, 'update'])
+        ->name('profil.update');
 
 });

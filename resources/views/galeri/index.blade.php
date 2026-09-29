@@ -57,11 +57,6 @@
                                 {{ $item->nama_galeri }}
                             </h3>
 
-                            <span>
-                                {{ $item->kategori_galeri }}
-                            </span>
-
-
                             <div class="action-buttons">
 
                                 <a href="{{ route('galeri.edit', $item->id_galeri) }}" class="btn-edit">

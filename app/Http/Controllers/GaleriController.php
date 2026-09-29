@@ -36,16 +36,16 @@ class GaleriController extends Controller
         //
         $request->validate([
             'nama_galeri' => 'required|string|max:100',
-            'kategori_galeri' => 'required|string|max:100',
             'foto' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
-        
+
         $foto = $request->file('foto')->store('galeri', 'public');
+
+        dd(session()->all());
 
         Galeri::create([
             'id_admin' => session('id_admin'),
             'nama_galeri' => $request->nama_galeri,
-            'kategori_galeri' => $request->kategori_galeri,
             'foto' => $foto,
         ]);
 
@@ -81,25 +81,22 @@ class GaleriController extends Controller
         //
         $request->validate([
             'nama_galeri' => 'required|string|max:100',
-            'kategori_galeri' => 'required|string|max:100',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $galeri = Galeri::findOrFail($id);
 
         $data = [
+            'id_admin' => session('id_admin'),
             'nama_galeri' => $request->nama_galeri,
-            'kategori_galeri' => $request->kategori_galeri,
         ];
 
         if ($request->hasFile('foto')) {
 
-            // Hapus foto lama
             if ($galeri->foto) {
                 Storage::disk('public')->delete($galeri->foto);
             }
 
-            // Simpan foto baru
             $data['foto'] = $request->file('foto')->store('galeri', 'public');
         }
 
