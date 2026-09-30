@@ -12,12 +12,12 @@
 
         <div class="dashboard-card">
             <span>Total Layanan</span>
-            <strong>0</strong>
+            <strong>{{ $totalLayanan }}</strong>
         </div>
 
         <div class="dashboard-card">
             <span>Total Galeri</span>
-            <strong>0</strong>
+            <strong>{{ $totalGaleri }}</strong>
         </div>
 
         <div class="dashboard-card">
@@ -36,6 +36,69 @@
             Kamu login sebagai
             <strong>{{ ucfirst(session('admin_role')) }}</strong>.
         </p>
+
+    </div>
+
+
+    <div class="activity-card">
+
+        <div class="activity-header">
+            <h3>Aktivitas Terbaru</h3>
+            <p>Aktivitas terbaru pada sistem.</p>
+        </div>
+
+        <div class="activity-table-wrapper">
+
+            <table class="activity-table">
+
+                <thead>
+                    <tr>
+                        <th>Aktivitas</th>
+                        <th>Detail</th>
+                        <th>Oleh</th>
+                        <th>Waktu</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @forelse($aktivitas as $item)
+
+                        <tr>
+
+                            <td>
+                                {{ $item->aktivitas }}
+                            </td>
+
+                            <td>
+                                {{ $item->detail }}
+                            </td>
+
+                            <td>
+                                {{ ucfirst($item->nama_admin) }}
+                            </td>
+
+                            <td>
+                                {{ $item->created_at->format('d/m/Y H:i') }}
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+                            <td colspan="4" class="activity-empty">
+                                Belum ada aktivitas.
+                            </td>
+                        </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 

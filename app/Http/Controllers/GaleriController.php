@@ -41,10 +41,9 @@ class GaleriController extends Controller
 
         $foto = $request->file('foto')->store('galeri', 'public');
 
-        dd(session()->all());
 
         Galeri::create([
-            'id_admin' => session('id_admin'),
+            'id_admin' => session('admin_id'),
             'nama_galeri' => $request->nama_galeri,
             'foto' => $foto,
         ]);
@@ -87,7 +86,7 @@ class GaleriController extends Controller
         $galeri = Galeri::findOrFail($id);
 
         $data = [
-            'id_admin' => session('id_admin'),
+            'id_admin' => session('admin_id'),
             'nama_galeri' => $request->nama_galeri,
         ];
 

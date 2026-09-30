@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Layanan;
 use Illuminate\Http\Request;
+use App\Models\Aktivitas;
 
 class LayananController extends Controller
 {
@@ -51,8 +52,10 @@ class LayananController extends Controller
         ]);
 
         Layanan::create([
-            'nama_layanan' => $request->nama_layanan,
-            'deskripsi_layanan' => $request->deskripsi_layanan,
+            'nama_admin' => session('admin_username'),
+            'role_admin' => session('admin_role'),
+            'aktivitas' => 'Layanan ditambahkan',
+            'detail' => 'Layanan "' . $request->nama_layanan . '" ditambahkan',
         ]);
 
         return redirect()
@@ -97,6 +100,13 @@ class LayananController extends Controller
             'deskripsi_layanan' => $request->deskripsi_layanan,
         ]);
 
+        Aktivitas::create([
+            'nama_admin' => session('admin_username'),
+            'role_admin' => session('admin_role'),
+            'aktivitas' => 'Layanan diperbarui',
+            'detail' => 'Layanan "' . $layanan->nama_layanan . '" diperbarui',
+        ]);
+
         return redirect()
             ->route('layanan.index')
             ->with('success', 'Layanan berhasil diperbarui.');
@@ -111,6 +121,13 @@ class LayananController extends Controller
         $layanan = Layanan::findOrFail($id);
 
         $layanan->delete();
+
+        Aktivitas::create([
+            'nama_admin' => session('admin_username'),
+            'role_admin' => session('admin_role'),
+            'aktivitas' => 'Layanan dihapus',
+            'detail' => 'Layanan "' . $layanan->nama_layanan . '" dihapus',
+        ]);
 
         return redirect()
             ->route('layanan.index')
