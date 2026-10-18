@@ -50,3 +50,7 @@ Route::middleware('pemilik')->group(function () {
         ->name('profil.update');
 
 });
+
+Route::get('/', function () {
+    return view('pengunjung.utama');
+});
