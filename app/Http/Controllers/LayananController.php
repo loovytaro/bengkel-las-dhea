@@ -39,28 +39,30 @@ class LayananController extends Controller
      */
     public function store(Request $request)
     {
-        // Pengaman tambahan agar database tidak lebih dari 6 layanan
-        if (Layanan::count() >= 6) {
-            return redirect()
-                ->route('layanan.index')
-                ->with('error', 'Jumlah layanan sudah mencapai batas maksimal 6.');
-        }
-
-        $request->validate([
-            'nama_layanan' => 'required|string|max:100',
-            'deskripsi_layanan' => 'required|string|max:100',
-        ]);
-
-        Layanan::create([
-            'nama_admin' => session('admin_username'),
-            'role_admin' => session('admin_role'),
-            'aktivitas' => 'Layanan ditambahkan',
-            'detail' => 'Layanan "' . $request->nama_layanan . '" ditambahkan',
-        ]);
-
+        
+    // Pengaman tambahan agar database tidak lebih dari 6 layanan
+    if (Layanan::count() >= 6) {
         return redirect()
             ->route('layanan.index')
-            ->with('success', 'Layanan berhasil ditambahkan.');
+            ->with('error', 'Jumlah layanan sudah mencapai batas maksimal 6.');
+    }
+
+    $request->validate([
+        'nama_layanan' => 'required|string|max:100',
+        'deskripsi_layanan' => 'required|string|max:100',
+    ]);
+
+    // Simpan data layanan
+    Layanan::create([
+        'nama_layanan' => $request->nama_layanan,
+        'deskripsi_layanan' => $request->deskripsi_layanan,
+    ]);
+
+    return redirect()
+        ->route('layanan.index')
+        ->with('success', 'Layanan berhasil ditambahkan.');
+
+
     }
 
     /**

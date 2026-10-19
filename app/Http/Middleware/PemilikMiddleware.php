@@ -15,10 +15,12 @@ class PemilikMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (session('admin_role') !== 'pemilik') {
+        $role = session('admin_role');
+
+        if (!in_array($role, ['pemilik', 'admin'], true)) {
             abort(403);
         }
-        
+
         return $next($request);
     }
 }
